@@ -458,8 +458,9 @@ calculate_betas <- function(return_data) {
       market_return = return_data$DJI
     )
 
-    lm_model <- lm(stock_return ~ market_return, data = regression_data)
-    beta <- coef(lm_model)[2]
+    #lm_model <- lm(stock_return ~ market_return, data = regression_data)
+    svr_model = svm(stock_return ~ market_return, data = regression_data, kernel = "radial")
+    beta <- coef(svr_model)[2]
     betas <- rbind(betas, data.frame(Stock = stock, Beta = beta))
   }
   rownames(betas) = NULL
